@@ -1,16 +1,24 @@
 {% extends 'base.html' %} 
+
 {% block title %} {{ post.title }} {% endblock %} 
+
 {% block content %}
-
-<h1>{{ post.title }}</h1>
-<small>By: {{ post.author }}</small> 
-<hr />
-<br />
-{{ post.body }}
-
-<br />
-<br />
-
-<a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
-<small><a href="{% url 'update' post.pk %}" class="btn btn-secondary">(update)</a></small>
+  <div class="container">
+    <article>
+      <header>
+        <h1>{{ post.title }}</h1>
+        <p class="text-muted">By: {{ post.author.first_name }} {{ post.author.last_name }} | Posted on: {{ post.post_date }}</p> 
+      </header>
+      <hr />
+      <div class="content">
+        {{ post.body | safe }}  <!-- Use | safe if the body contains HTML content -->
+      </div>
+      <br />
+      <br />
+      <div class="text-center">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back to All Posts</a>
+        <small class="ml-2"><a href="{% url 'update' post.pk %}" class="btn btn-primary">Edit Post</a></small>
+      </div>
+    </article>
+  </div>
 {% endblock %}

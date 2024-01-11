@@ -1,6 +1,8 @@
 {% extends 'base.html' %} 
 {% block content %}
 
+
+{% if user.is_authenticated %}
 <h1>Delete The Post</h1>
 <br/> <br/>
 
@@ -15,5 +17,8 @@
 
 <h3>Or, you can go back to the home page</h3>
 <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+{% else %}
+<h1> You are not allowed</h1>
+{% endif %}
 
 {% endblock %}

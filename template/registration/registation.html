@@ -1,16 +1,12 @@
 {% extends 'base.html' %} 
-{% block title %} My Blog {% endblock %}
+{% block title %} Registration {% endblock %}
 {% block content %}
 
-{% if user.is_authenticated %}
-<h1>Update Article</h1>
+<h1>Registration</h1>
 <br/> <br/>
 <form action="#" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-secondary">Update</button>
 </form>
-{% else %}
-<h1> You are not alowed here </h1>
-{% endif %}
 {% endblock %}
