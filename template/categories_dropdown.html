@@ -1,0 +1,6 @@
+<!-- myblog/templates/categories_dropdown.html -->
+<ul class="dropdown-menu">
+    {% for category in categories %}
+        <li><a class="dropdown-item" href="{% url 'category-detail' category.pk %}">{{ category.name }}</a></li>
+    {% endfor %}
+</ul>

@@ -11,12 +11,12 @@
       </header>
       <hr />
       <div class="content">
-        {{ post.body | safe }}  <!-- Use | safe if the body contains HTML content -->
+        {{ post.body}}  <!-- Use | safe if the body contains HTML content -->
       </div>
       <br />
       <br />
       <div class="text-center">
-        <a href="{% url 'home' %}" class="btn btn-secondary">Back to All Posts</a>
+        <a href="#" onclick="history.back()" class="btn btn-secondary">Back</a>
         <small class="ml-2"><a href="{% url 'update' post.pk %}" class="btn btn-primary">Edit Post</a></small>
       </div>
     </article>

@@ -2,7 +2,7 @@
 {% block title %} My Blog {% endblock %}
 {% block content %}
 
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user.id == post.author.id %}
 <h1>Update Article</h1>
 <br/> <br/>
 <form action="#" method="post">

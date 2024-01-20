@@ -1,6 +1,9 @@
+from django.views.generic import ListView
+from myblog.models import Category
+from django import template
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from .models import Post, Category
 from .forms import PostForm, UpdateForm
 from django.urls import reverse_lazy
 
@@ -24,8 +27,10 @@ class CreatePost(CreateView):
     model = Post
     form_class = PostForm
     template_name = "create.html"
-    # fields = "__all__"
-    # fields = ("fields name")
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class UpdatePost(UpdateView):
@@ -38,3 +43,22 @@ class DeletePost(DeleteView):
     model = Post
     template_name = "delete.html"
     success_url = reverse_lazy("home")
+
+
+class CategoryView(ListView):
+    model = Post
+    template_name = "category_view.html"
+    context_object_name = 'posts'
+    ordering = ["-post_date"]
+
+    def get_queryset(self):
+        category_id = self.kwargs['pk']
+        category = Category.objects.get(pk=category_id)
+        queryset = Post.objects.filter(category=category)
+        return queryset.order_by(*self.ordering)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs['pk']
+        context['category'] = Category.objects.get(pk=category_id)
+        return context

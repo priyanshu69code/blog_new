@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="container" style="font-family: 'Roboto', sans-serif;">
-    <h1 class="display-4 mb-4">Posts</h1>
+    <h2 class="display-4 mb-4">Posts in Category: {{ category.name }}</h2>
     <ul class="list-group">
       {% for post in object_list %}
       <li class="list-group-item mb-4">
