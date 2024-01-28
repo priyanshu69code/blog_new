@@ -23,6 +23,10 @@ class Post(models.Model):
     post_date = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True)
+    likes = models.ManyToManyField(User, related_name="blogpost")
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self) -> str:
         return self.title + " | " + str(self.author)

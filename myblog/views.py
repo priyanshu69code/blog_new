@@ -1,11 +1,13 @@
 from django.views.generic import ListView
 from myblog.models import Category
 from django import template
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import Post, Category
 from .forms import PostForm, UpdateForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 # def home(request):
@@ -21,6 +23,13 @@ class HomeView(ListView):
 class ArticleView(DetailView):
     model = Post
     template_name = "articles.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        which_post = get_object_or_404(Post, id=self.kwargs["pk"])
+        total_likes = which_post.total_likes()
+        context["total_likes"] = total_likes
+        return context
 
 
 class CreatePost(CreateView):
@@ -62,3 +71,9 @@ class CategoryView(ListView):
         category_id = self.kwargs['pk']
         context['category'] = Category.objects.get(pk=category_id)
         return context
+
+
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+    post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('article-detail', args=[str(pk)]))
